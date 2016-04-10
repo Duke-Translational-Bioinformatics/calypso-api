@@ -1,6 +1,9 @@
 # Calypso API
 
 ### Table of contents
+* [TODO](#todo)
+* [Setup](#setup)
+* [Grunt](#grunt)
 * [API](#api)
 	* [`Patient`](#patient)
 		* [`/patients`](#patients)
@@ -12,7 +15,36 @@
 			* [`/analysis/predict/:patient_id`](#analysis-predict)
 	* [`Target`](#target)
 
-## API
+## [TODO](#todo)
+ - Patient JSONObject description
+ - SQL development cycle
+ - Auth
+ - Patient Route
+ - Analytics Route
+ - Target Route
+ - Auto Model building on DB
+ - CircleCI testing
+ - Auto Deployment of server
+
+## [Setup](#setup)
+
+Pull the project with `git clone https://github.com/Duke-Translational-Bioinformatics/calypso-api.git`
+
+Install the dependencies with `npm install`
+
+Create a copy of the local environmental vars by running `cp $PWD/server/config/local.env.sample.js $PWD/server/config/local.env.js`
+
+Run the server with `grunt`
+
+## [Grunt](#grunt)
+
+`grunt serve` will serve the development server on a development database
+`grunt serve:dist` will serve the production server on a production database
+`grunt test` will test the server using a test database
+`grunt build` will prepare a folder of only server files
+`grunt` will run test, build, and serve:dist
+
+## [API](#api)
 All `POST` and `PUT` requests expect a JSONObject with the `Content-Type` request header set to `application/json`.
 
 Authenticated routes expect the `Authorization` header to be set to `Bearer <token>`.
