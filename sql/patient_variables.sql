@@ -1,5 +1,5 @@
 CREATE TABLE patient_variables (
-  caseid integer NOT NULL,
+  caseid int NOT NULL,
   year integer,
   sex text,
   age integer,

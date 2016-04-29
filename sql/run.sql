@@ -1,0 +1,8 @@
+patient_outcomes.sql
+patient_variables.sql
+patient_variables_metadata.sql
+orders.sql
+interventions.sql
+order_to_intervention.sql
+literatures.sql
+intervention_to_literature.sql

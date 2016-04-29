@@ -1,6 +1,6 @@
 CREATE TABLE literatures (
-  id int PRIMARY KEY,
+  id serial PRIMARY KEY,
   title text,
   url text,
   publish_date date
-)
+);

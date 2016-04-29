@@ -1,5 +1,5 @@
 CREATE TABLE patient_outcomes (
-  caseid integer NOT NULL,
+  caseid int NOT NULL,
   outcome_ssi_any boolean,
   outcome_thirtyday_mortality boolean,
   outcome_morbidity_any boolean,

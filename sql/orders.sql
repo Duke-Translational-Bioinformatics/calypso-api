@@ -1,5 +1,5 @@
 CREATE TABLE orders (
-  id int PRIMARY KEY,
+  id serial PRIMARY KEY,
   description text,
-  order_type text -- category
-)
+  order_type text, CHECK (order_type IN ('order', 'alert'))
+);
