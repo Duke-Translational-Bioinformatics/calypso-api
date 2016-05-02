@@ -11,7 +11,7 @@ module.exports = function (app) {
   // Insert routes below
   // app.use('/api/users', require('./api/user')); TODO
   // app.use('/auth', require('./auth')); TODO
-  // app.use('/patients', require('./api/patient')); TODO
+  app.use('/api/patients', require('./api/patient'));
   // app.use('/analytics', require('./api/analytics')); TODO
   // app.use('/targets', require('./api/targets')); TODO
 

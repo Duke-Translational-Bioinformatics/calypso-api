@@ -25,9 +25,6 @@ server.listen(config.port, config.ip, function () {
     pgDone();
     if (err) return console.error(err);
     console.log('Successfully made first connection to database.');
-    if (config.seedDB) {
-      require('./config/seed.js')(app);
-    }
   });
 });
 

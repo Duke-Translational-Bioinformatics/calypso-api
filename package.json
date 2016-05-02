@@ -14,13 +14,15 @@
     "express-jwt": "^3.1.0",
     "express-session": "~1.0.2",
     "jsonwebtoken": "^5.0.5",
-    "lodash": "~2.4.1",
+    "lodash": "~4.11.0",
     "method-override": "~1.0.0",
     "mongoose": "~3.8.8",
     "morgan": "~1.0.0",
     "passport": "~0.2.0",
     "passport-local": "~0.1.6",
-    "pg": "^4.4.2"
+    "pg": "^4.4.2",
+    "pg-query": "^0.11.0",
+    "validator": "^5.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
