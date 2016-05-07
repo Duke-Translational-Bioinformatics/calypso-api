@@ -67,16 +67,16 @@ Example error:
 ##### [Patient object](#patient-object)
 A `Patient` JSONObject with the following fields:
 
-|   Field               | Type           | Description
-| --------------------- | -------------- | ---------------------------------------------------------------------- |
-|   `age` 				| `integer`      |                                                                        |
-|   `alcohol` 			| `boolean`      |                                                                        |
-|   `asa` 				| `integer`      |                                                                        |
-|   `bleeddis` 			| `boolean`      |                                                                        |
-|   `bmi` 				| `real`         |                                                                        |
-|   `cardiac_surgery` 	| `boolean`      |                                                                        |
+|   Field               | Type           | Description                                                            | Constraint | 
+| --------------------- | -------------- | ---------------------------------------------------------------------- | ---------- |
+|   `age` 				| `integer`      |  Age upon admission: if age > 90, then change value to 90    | min: 1, max: 90  |
+|   `alcohol` 			| `boolean`      |  Alcohol abuse > 2 drinks/day in 2 wks before admission | |   
+|   `asa` 				| `integer`      |  American Society of Anesthesiology (ASA) Physical Status Classification, determined before surgery. | min: 1, max: 5|  
+|   `bleeddis` 			| `boolean`      |  Conditions that predipose to bleeding. Examples include: Vitamin K deficiency, hemophilias, thrombocytopenia, chronic anticoagulation therapy that has not been discontinued prior to surgery | |                                                                     | |
+|   `bmi` 				| `real`         |  Body Mass Index. Metric formula: BMI = ( Weight in Kilograms / ( Height in Meters x Height in Meters ) )  | min: 0|
+|   `cardiac_surgery` 	| `boolean`      |  History of cardiac surgery  | |
 |   `caseid` 			| `integer`      |                                                                        |
-|   `ccs_category` 		| `string`       | CCS category number.                                                   |
+|   `ccs_category` 		| `string`       | Diagnosis code for the reason why surgery was performed, based on CCS category number.                                                   |
 |   `chemo_radio` 		| `boolean`      |                                                                        |
 |   `concurrent_proc` 	| `boolean`      |                                                                        |
 |   `cpneumon` 			| `boolean`      |                                                                        |
