@@ -64,3 +64,15 @@ INSERT INTO patient_variables_metadata (variable_name, description) VALUES('ccs_
 INSERT INTO patient_variables_metadata (variable_name, description) VALUES('cpt', '');
 INSERT INTO patient_variables_metadata (variable_name, description) VALUES('cpt_mis', '');
 INSERT INTO patient_variables_metadata (variable_name, description) VALUES('cpt_implant', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('wound_compilcations', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('urinary_tract_infections', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('reoperations', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('postoperative_hospital_stay', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('morbidity', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('mortality', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('respiratory_complications', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('thrombeombolic_complications', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('renal_complications', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('neurologic_complications', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('cardiac_complications', '');
+INSERT INTO patient_variables_metadata (variable_name, description) VALUES('systemic_septic_complications', '');
