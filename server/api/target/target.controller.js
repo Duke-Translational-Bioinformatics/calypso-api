@@ -1,6 +1,4 @@
 'use strict';
-var Patient = require('./patient.model');
-var _ = require('lodash');
 
 var notFoundError = function (res) {
   return res.status(404).json('Not found.');
@@ -15,13 +13,7 @@ var internalError = function (res, err) {
 }
 
 exports.get = function (req, res) {
-  var patient = new Patient(req.params.id);
-  patient.info.then(function (info) {
-    if (_.isEmpty(info)) return notFoundError(res);
-    return res.status(200).json(info);
-  }, function (err) {
-    return badRequestError(res, err);
-  });
+  // TODO
 };
 
 exports.query = function (req, res) {

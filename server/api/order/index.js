@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express'),
-  controller = require('./patient.controller'),
+  controller = require('./order.controller'),
   config = require('../../config/environment'),
   auth = require('../../auth/auth.service');
 
