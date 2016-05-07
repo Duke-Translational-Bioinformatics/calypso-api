@@ -34,7 +34,7 @@ module.exports = class Patient {
       query.first(
         `
           SELECT * 
-          FROM patient_outcomes 
+          FROM patient_outcomes_v2 
           WHERE caseid = $1
         `, [self.id],
         function (err, row, result) {
