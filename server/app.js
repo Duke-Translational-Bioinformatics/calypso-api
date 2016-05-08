@@ -6,7 +6,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var express = require('express'),
   cors = require('cors'),
   config = require('./config/environment'),
-  pg = require('pg').native;
+  pg = require('pg');
 
 // Setup Database
 pg.defaults.poolSize = config.pg.poolSize;
