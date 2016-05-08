@@ -8,8 +8,9 @@ var express = require('express'),
 var router = express.Router();
 
 router.get('/:id', controller.get);
+router.get('/predict/:id', controller.predict);
+router.get('/info/:id', controller.info);
 router.get('/histogram/:id', controller.histogram);
 router.get('/percentile/:id', controller.percentile);
-router.get('/predict/:id', controller.predict);
 
 module.exports = router;

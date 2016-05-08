@@ -79,27 +79,27 @@ describe('Analysis API:', function () {
         });
     });
 
-    it('should get a histogram', function (done) {
-      request(app)
-        .get('/api/analysis/histogram/1')
-        .expect(200)
-        .end(function (err, res) {
-          should.not.exist(err);
-          should.exist(res.body);
-          done();
-        });
-    });
+    // it('should get a histogram', function (done) {
+    //   request(app)
+    //     .get('/api/analysis/histogram/1')
+    //     .expect(200)
+    //     .end(function (err, res) {
+    //       should.not.exist(err);
+    //       should.exist(res.body);
+    //       done();
+    //     });
+    // });
 
-    it('should get a percentile', function (done) {
-      request(app)
-        .get('/api/analysis/percentile/1')
-        .expect(200)
-        .end(function (err, res) {
-          should.not.exist(err);
-          should.exist(res.body);
-          done();
-        });
-    });
+    // it('should get a percentile', function (done) {
+    //   request(app)
+    //     .get('/api/analysis/percentile/1')
+    //     .expect(200)
+    //     .end(function (err, res) {
+    //       should.not.exist(err);
+    //       should.exist(res.body);
+    //       done();
+    //     });
+    // });
 
     it('should get all analysis', function (done) {
       request(app)
@@ -125,27 +125,27 @@ describe('Analysis API:', function () {
         });
     });
 
-    it('should get a histogram', function (done) {
-      request(app)
-        .get('/api/analysis/histogram/0?values=' + values)
-        .expect(200)
-        .end(function (err, res) {
-          should.not.exist(err);
-          should.exist(res.body);
-          done();
-        });
-    });
+    // it('should get a histogram', function (done) {
+    //   request(app)
+    //     .get('/api/analysis/histogram/0?values=' + values)
+    //     .expect(200)
+    //     .end(function (err, res) {
+    //       should.not.exist(err);
+    //       should.exist(res.body);
+    //       done();
+    //     });
+    // });
 
-    it('should get a percentile', function (done) {
-      request(app)
-        .get('/api/analysis/percentile/0?values=' + values)
-        .expect(200)
-        .end(function (err, res) {
-          should.not.exist(err);
-          should.exist(res.body);
-          done();
-        });
-    });
+    // it('should get a percentile', function (done) {
+    //   request(app)
+    //     .get('/api/analysis/percentile/0?values=' + values)
+    //     .expect(200)
+    //     .end(function (err, res) {
+    //       should.not.exist(err);
+    //       should.exist(res.body);
+    //       done();
+    //     });
+    // });
 
     it('should get all analysis', function (done) {
       request(app)
