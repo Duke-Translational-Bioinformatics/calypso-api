@@ -1,5 +1,7 @@
 'use strict';
 
+var Order = require('./orders.model');
+
 var notFoundError = function (res) {
   return res.status(404).json('Not found.');
 }
@@ -13,7 +15,19 @@ var internalError = function (res, err) {
 }
 
 exports.get = function (req, res) {
-  // TODO
+  Order.get(req.params.id).then(function (order) {
+    return res.status(200).json(order);
+  }, function (err) {
+    return badRequestError(res, err);
+  });
+};
+
+exports.get_list = function (req, res) {
+  Promise.all(Order.get_list(req.query.id_array)).then(function (orders) {
+    return res.status(200).json(orders);
+  }, function (err) {
+    return badRequestError(res, err);
+  });
 };
 
 exports.query = function (req, res) {

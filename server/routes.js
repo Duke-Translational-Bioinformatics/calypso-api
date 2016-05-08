@@ -13,6 +13,8 @@ module.exports = function (app) {
   // app.use('/auth', require('./auth')); TODO
   app.use('/api/patients', require('./api/patient'));
   app.use('/api/analysis', require('./api/analysis'));
+  app.use('/api/orders', require('./api/orders'));
+
   // app.use('/targets', require('./api/targets')); TODO
 
   // All other routes get a 404
