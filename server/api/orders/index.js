@@ -8,6 +8,7 @@ var express = require('express'),
 var router = express.Router();
 
 router.get('/', controller.get_list);
+router.get('/target/:id', controller.get_list_from_target);
 router.get('/:id', controller.get);
 router.post('/:id', controller.create);
 router.put('/:id', controller.update);

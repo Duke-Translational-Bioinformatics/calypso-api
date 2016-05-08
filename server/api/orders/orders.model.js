@@ -17,6 +17,25 @@ module.exports = class Order {
     });
   }
 
+  static get_list_from_target(target_id) {
+    return new Promise(function (resolve, reject) {
+      query.first(
+        `
+	        SELECT array_agg(order_id) as orders
+	        FROM order_to_intervention 
+	        WHERE intervention_id = $1
+	    `, [target_id],
+        function (err, row, result) {
+          if (err) return reject(err);
+          Promise.all(Order.get_list(row.orders)).then(function (orders) {
+            return resolve(orders);
+          }, function (err) {
+            return reject(err);
+          });
+        });
+    });
+  }
+
   static get(id) {
     return new Promise(function (resolve, reject) {
       query.first(

@@ -30,6 +30,14 @@ exports.get_list = function (req, res) {
   });
 };
 
+exports.get_list_from_target = function (req, res) {
+  Order.get_list_from_target(req.params.id).then(function (orders) {
+    return res.status(200).json(orders);
+  }, function (err) {
+    return badRequestError(res, err);
+  });
+};
+
 exports.query = function (req, res) {
   // TODO
 };

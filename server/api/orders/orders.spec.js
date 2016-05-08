@@ -35,5 +35,16 @@ describe('Order API:', function () {
           done();
         });
     });
+
+    it('should get a list', function (done) {
+      request(app)
+        .get('/api/orders/target/1')
+        .expect(200)
+        .end(function (err, res) {
+          should.not.exist(err);
+          should.exist(res.body);
+          done();
+        });
+    });
   });
 });
