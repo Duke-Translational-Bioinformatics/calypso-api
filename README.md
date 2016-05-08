@@ -1,5 +1,20 @@
 # Calypso API
 
+# Samples
+
+### Get Patient
+http://54.186.43.170/api/patients/1
+
+### Predict Patient
+http://54.186.43.170/api/analysis/predict/1
+
+### sorted targets
+http://54.186.43.170/api/targets/patient/1
+
+### orders of a target
+http://54.186.43.170/api/orders/target/27
+
+
 ### Table of contents
 * [TODO](#todo)
 * [Setup](#setup)
