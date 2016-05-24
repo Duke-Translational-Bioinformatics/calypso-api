@@ -27,7 +27,19 @@ exports.get = function (req, res) {
 };
 
 exports.histogram = function (req, res) {
-
+  var patient;
+  if (req.params.id) patient = new Patient(req.params.id);
+  if (req.query.values) patient = new Patient(null, req.query.values);
+  if (!req.query.complication) return badRequestError(res, 'No complication given.');
+  if (!req.query.bins) return badRequestError(res, 'Number of bins required.');
+  Promise.all([Analysis.histogram(patient, req.query.complication, req.query.bins), Analysis.simple_stats(patient, req.query.complication)]).then(function (data) {
+    return res.status(200).json({
+      histogram: data[0],
+      stats: data[1]
+    });
+  }, function (err) {
+    return badRequestError(res, err);
+  });
 };
 
 exports.percentile = function (req, res) {

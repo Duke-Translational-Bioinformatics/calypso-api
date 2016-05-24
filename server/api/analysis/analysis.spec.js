@@ -79,17 +79,6 @@ describe('Analysis API:', function () {
         });
     });
 
-    // it('should get a histogram', function (done) {
-    //   request(app)
-    //     .get('/api/analysis/histogram/1')
-    //     .expect(200)
-    //     .end(function (err, res) {
-    //       should.not.exist(err);
-    //       should.exist(res.body);
-    //       done();
-    //     });
-    // });
-
     it('should get a percentile', function (done) {
       request(app)
         .get('/api/analysis/percentile/1')
@@ -137,18 +126,6 @@ describe('Analysis API:', function () {
           done();
         });
     });
-
-    // it('should get a histogram', function (done) {
-    //   request(app)
-    //     .get('/api/analysis/histogram/0?values=' + values)
-    //     .expect(200)
-    //     .end(function (err, res) {
-    //       should.not.exist(err);
-    //       should.exist(res.body);
-    //       done();
-    //     });
-    // });
-
   });
 
   describe('GET /api/analysis', function () {
@@ -164,4 +141,29 @@ describe('Analysis API:', function () {
     });
   });
 
+  describe('GET /api/analysis/histogram/:id', function () {
+    it('should get histogram', function (done) {
+      request(app)
+        .get('/api/analysis/histogram/1?complication=cardiac_complications&bins=10')
+        .expect(200)
+        .end(function (err, res) {
+          should.not.exist(err);
+          should.exist(res.body);
+          done();
+        });
+    });
+  });
+
+  describe('GET /api/analysis/histogram', function () {
+    it('should get histogram', function (done) {
+      request(app)
+        .get('/api/analysis/histogram/0?values=' + values + '&complication=cardiac_complications&bins=10')
+        .expect(200)
+        .end(function (err, res) {
+          should.not.exist(err);
+          should.exist(res.body);
+          done();
+        });
+    });
+  });
 });

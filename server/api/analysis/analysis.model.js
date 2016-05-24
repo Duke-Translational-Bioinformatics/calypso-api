@@ -55,8 +55,57 @@ module.exports = class Analysis {
     });
   }
 
-  static histogram(patient) {
-    console.log('Should get the histogram of a patient')
+  static simple_stats(patient, complication) {
+    complication = this.getListOfModels().filter(function (model) {
+      if (complication === model) return complication;
+    })[0];
+    return new Promise(function (resolve, reject) {
+      patient.info.then(function (info) {
+        if (!complication) return reject('Complication not found.');
+        query.first(
+          `
+            SELECT avg(` + complication + `), median(` + complication + `::numeric), stddev(` + complication + `), min(` + complication + `), max(` + complication + `)
+            FROM patient_predictions NATURAL JOIN patient_variables
+            WHERE cpt=$1
+          `, [info.cpt],
+          function (err, row, result) {
+            if (err) return reject(err);
+            return resolve(row);
+          });
+      });
+    });
+  }
+
+  static histogram(patient, complication, bins) {
+    return new Promise(function (resolve, reject) {
+      patient.info.then(function (info) {
+        query(
+          `
+            WITH 
+              ` + complication + `_stats AS (
+                SELECT min(` + complication + `) as min,
+                       max(` + complication + `) as max
+                FROM patient_predictions NATURAL JOIN patient_variables
+                WHERE cpt = $2), 
+              histogram AS (
+                SELECT width_bucket(` + complication + `, min, max, $1) as bucket,
+                      numrange(min(` + complication + `)::numeric, max(` + complication + `)::numeric, '[]') as range,
+                      count(*) as freq
+                FROM patient_predictions NATURAL JOIN patient_variables, ` + complication + `_stats
+                WHERE cpt = $2
+                GROUP by bucket
+                ORDER by bucket)
+            SELECT lower(range), upper(range), freq
+            FROM histogram;    
+          `, [bins, info.cpt],
+          function (err, rows, result) {
+            if (err) return reject(err);
+            resolve(rows);
+          });
+      }, function (err) {
+        reject(err);
+      });
+    });
   }
 
   static getListOfModels() {
