@@ -31,7 +31,14 @@ exports.histogram = function (req, res) {
 };
 
 exports.percentile = function (req, res) {
-
+  var patient
+  if (req.params.id) patient = new Patient(req.params.id);
+  if (req.query.values) patient = new Patient(null, req.query.values);
+  Analysis.percentile(patient).then(function (percentileObj) {
+    return res.status(200).json(percentileObj);
+  }, function (err) {
+    return badRequestError(res, err);
+  });
 };
 
 exports.info = function (req, res) {
@@ -52,7 +59,6 @@ exports.predict = function (req, res) {
   Analysis.prediction(patient).then(function (prediction) {
     return res.status(200).json(prediction);
   }, function (err) {
-    console.log(err);
     return badRequestError(res, err);
   });
 };

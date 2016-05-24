@@ -59,8 +59,97 @@ module.exports = class Analysis {
     console.log('Should get the histogram of a patient')
   }
 
+  static getListOfModels() {
+    return [
+      'cardiac_complications',
+      'morbidity',
+      'mortality',
+      'neurologic_complications',
+      'renal_complications',
+      'reoperations',
+      'respiratory_complications',
+      'systemic_septic_complications',
+      'wound_compilcations',
+      'urinary_tract_infections',
+      'thrombeombolic_complications'
+    ]
+  }
+
+  static getCount(complication, prediction_value, cpt) {
+    return new Promise(function (resolve, reject) {
+      query.first(
+        `
+          SELECT count(caseid) 
+          FROM patient_predictions NATURAL JOIN patient_variables
+          WHERE ` + complication + ` <= $1
+          AND cpt = $2
+        `, [prediction_value, cpt],
+        function (err, row, result) {
+          if (err) return reject(err);
+          resolve(row.count);
+        });
+    });
+  }
+
+  static getTotal(cpt) {
+    return new Promise(function (resolve, reject) {
+      query.first(
+        `
+          SELECT count(caseid) 
+          FROM patient_predictions NATURAL JOIN patient_variables
+          WHERE cpt = $1
+        `, [cpt],
+        function (err, row, result) {
+          if (err) return reject(err);
+          resolve(row.count);
+        });
+    });
+  }
+
   static percentile(patient) {
-    console.log('Should get the percentile of a patient');
+    var self = this;
+    var cpt, total;
+    var percentileObj = {
+      percentile: {},
+      size: 0,
+      cpt: ''
+    };
+
+    var total_promise = new Promise(function (resolve, reject) {
+      patient.info.then(function (info) {
+        cpt = info.cpt;
+        return self.getTotal(info.cpt);
+      }, function (err) {
+        return reject(err);
+      }).then(function (t) {
+        total = t;
+        resolve({
+          cpt: cpt,
+          total: total
+        });
+      }, function (err) {
+        return reject(err);
+      });
+    });
+
+    return new Promise(function (resolve, reject) {
+      Promise.all([total_promise, self.prediction(patient)]).then(function (data) {
+        Promise.all(self.getListOfModels().map(function (model) {
+          return self.getCount(model, data[1].predict[model], data[0].cpt);
+        })).then(function (countArray) {
+          self.getListOfModels().map(function (model, index) {
+            percentileObj.percentile[model] = (countArray[index] / total) * 100
+          });
+          percentileObj.size = parseInt(total);
+          percentileObj.cpt = data[0].cpt;
+          resolve(percentileObj);
+        }, function (err) {
+          reject(err);
+        });
+      }, function (err) {
+        reject(err);
+      });
+    });
   }
 
   static predictor_array_mapping(index) {

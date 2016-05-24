@@ -40,16 +40,20 @@ exports.get_list_from_target = function (req, res) {
 
 exports.query = function (req, res) {
   // TODO
+  return badRequestError(res, 'Query route incomplete');
 };
 
 exports.create = function (req, res) {
   // TODO
+  return badRequestError(res, 'Create route incomplete');
 };
 
 exports.update = function (req, res) {
   // TODO
+  return badRequestError(res, 'Update route incomplete');
 };
 
 exports.delete = function (req, res) {
   // TODO
+  return badRequestError(res, 'Delete route incomplete');
 };

@@ -94,7 +94,7 @@ module.exports = class Patient {
     }
     if (self.values) {
       return new Promise(function (resolve, reject) {
-        reject('TODO: Should return info.');
+        resolve(self.values);
       });
     }
   }
