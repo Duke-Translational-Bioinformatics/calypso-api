@@ -18,7 +18,7 @@ var internalError = function (res, err) {
 exports.get_patient_targets = function (req, res) {
   var patient
   if (req.params.id) patient = new Patient(req.params.id);
-  if (req.query.values) patient = new Patient(null, req.query.values);
+  if (req.query.values) patient = new Patient(null, JSON.parse(req.query.values));
   Target.trigger(patient).then(function (targets) {
     return res.status(200).json(targets);
   }, function (err) {

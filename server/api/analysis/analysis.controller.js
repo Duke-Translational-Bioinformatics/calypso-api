@@ -18,7 +18,7 @@ var internalError = function (res, err) {
 exports.get = function (req, res) {
   var patient
   if (req.params.id) patient = new Patient(req.params.id);
-  if (req.query.values) patient = new Patient(null, req.query.values);
+  if (req.query.values) patient = new Patient(null, JSON.parse(req.query.values));
   Promise.all([Analysis.model_info(patient), Analysis.prediction(patient)]).then(function (values) {
     return res.status(200).json(values);
   }, function (err) {
@@ -29,7 +29,7 @@ exports.get = function (req, res) {
 exports.histogram = function (req, res) {
   var patient;
   if (req.params.id) patient = new Patient(req.params.id);
-  if (req.query.values) patient = new Patient(null, req.query.values);
+  if (req.query.values) patient = new Patient(null, JSON.parse(req.query.values));
   if (!req.query.complication) return badRequestError(res, 'No complication given.');
   if (!req.query.bins) return badRequestError(res, 'Number of bins required.');
   Promise.all([Analysis.histogram(patient, req.query.complication, req.query.bins), Analysis.simple_stats(patient, req.query.complication)]).then(function (data) {
@@ -45,7 +45,7 @@ exports.histogram = function (req, res) {
 exports.percentile = function (req, res) {
   var patient
   if (req.params.id) patient = new Patient(req.params.id);
-  if (req.query.values) patient = new Patient(null, req.query.values);
+  if (req.query.values) patient = new Patient(null, JSON.parse(req.query.values));
   Analysis.percentile(patient).then(function (percentileObj) {
     return res.status(200).json(percentileObj);
   }, function (err) {
@@ -56,7 +56,7 @@ exports.percentile = function (req, res) {
 exports.info = function (req, res) {
   var patient
   if (req.params.id) patient = new Patient(req.params.id);
-  if (req.query.values) patient = new Patient(null, req.query.values);
+  if (req.query.values) patient = new Patient(null, JSON.parse(req.query.values));
   Analysis.model_info(patient).then(function (info) {
     return res.status(200).json(info);
   }, function (err) {
@@ -67,7 +67,7 @@ exports.info = function (req, res) {
 exports.predict = function (req, res) {
   var patient
   if (req.params.id) patient = new Patient(req.params.id);
-  if (req.query.values) patient = new Patient(null, req.query.values);
+  if (req.query.values) patient = new Patient(null, JSON.parse(req.query.values));
   Analysis.prediction(patient).then(function (prediction) {
     return res.status(200).json(prediction);
   }, function (err) {

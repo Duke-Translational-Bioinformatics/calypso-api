@@ -70,6 +70,7 @@ module.exports = class Analysis {
           `, [info.cpt],
           function (err, row, result) {
             if (err) return reject(err);
+            row.median = parseFloat(row.median);
             return resolve(row);
           });
       });
@@ -100,6 +101,12 @@ module.exports = class Analysis {
           `, [bins, info.cpt],
           function (err, rows, result) {
             if (err) return reject(err);
+            rows = rows.map(function (ele) {
+              ele.lower = parseFloat(ele.lower);
+              ele.upper = parseFloat(ele.upper);
+              ele.freq = parseFloat(ele.freq);
+              return ele
+            });
             resolve(rows);
           });
       }, function (err) {

@@ -109,7 +109,7 @@ describe('Analysis API:', function () {
         .expect(200)
         .end(function (err, res) {
           should.not.exist(err);
-          should.exist(res.body);
+          should.exist(res.body.percentile.cardiac_complications);
           done();
         });
     });
