@@ -1,0 +1,32 @@
+<!doctype html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <base href="/">
+      <title></title>
+      <meta name="description" content="".
+      <meta name="viewpoint" content="width=device=width">
+      <!-- bower:css -->
+      <!-- endbower -->
+    </head>
+    <body ng-app="csvParser">
+      <div ui-view=""></div>
+      <!-- build:js({client,node_modules}) app/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+        <!-- endbower -->
+      <!-- endbuild -->
+      <!-- build:js(.tmp) app/app.js -->
+        <script src="app/app.js"></script>
+        <!-- injector:js -->
+        <script src="app/app.constant.js"></script>
+        <script src="app/main/main.controller.js"></script>
+        <script src="app/main/main.js"></script>
+        <!-- endinjector -->
+      <!-- endbuild -->
+    </body>
+  </html>
