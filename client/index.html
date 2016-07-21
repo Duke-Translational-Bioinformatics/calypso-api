@@ -7,8 +7,17 @@
       <title></title>
       <meta name="description" content="".
       <meta name="viewpoint" content="width=device=width">
-      <!-- bower:css -->
-      <!-- endbower -->
+      <!-- build:css(client) app/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+        <link rel="stylesheet" href="bower_components/lf-ng-md-file-input/dist/lf-ng-md-file-input.css" />
+        <!-- endbower -->
+      <!-- endbuild -->
+      <!-- build:css({.tmp,client}) app/app.css -->
+        <link rel="stylesheet" href="app/app.css">
+        <!-- injector:css -->
+        <!-- endinjector -->
+      <!-- endbuild -->
     </head>
     <body ng-app="csvParser">
       <div ui-view=""></div>
@@ -18,6 +27,11 @@
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
         <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/angular-aria/angular-aria.js"></script>
+        <script src="bower_components/angular-messages/angular-messages.js"></script>
+        <script src="bower_components/angular-material/angular-material.js"></script>
+        <script src="bower_components/lf-ng-md-file-input/dist/lf-ng-md-file-input.js"></script>
         <!-- endbower -->
       <!-- endbuild -->
       <!-- build:js(.tmp) app/app.js -->

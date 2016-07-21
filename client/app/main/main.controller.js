@@ -1,19 +1,21 @@
-(function (angular, undefined) {
+(function () {
   'use strict';
 
   angular.module('csvParser')
-  .controller('MainController', ['$scope', 'Upload', function($scope, Upload){
-    $scope.uploadFile = function(file) {
-      console.log(file);
-      file.upload = Upload.upload({
-        url: '/api/upload',
-        data: {file: file}
-      });
+  .controller('MainController', ['$scope', 'Upload', function($scope, Upload) {
 
-      file.upload.then(function(response){
-        console.log(response);
-      });
+    $scope.uploadFile = function(files) {
+
+      if (files && files.length) {
+        for(var i = 0; i < files.length; i++) {
+          Upload.upload({
+            url: '/api/upload',
+            data: {file: files[i]}
+          });
+        }
+      }
     };
+    
   }]);
 
-}(angular));
+}());
