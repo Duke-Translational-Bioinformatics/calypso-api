@@ -12,6 +12,7 @@ var express = require('express'),
 pg.defaults.poolSize = config.pg.poolSize;
 
 // Setup server
+var request = require('./components/request');
 var app = express();
 app.use(cors());
 var server = require('http').createServer(app);
