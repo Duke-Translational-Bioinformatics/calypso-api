@@ -34,7 +34,7 @@ http://54.186.43.170/api/orders/target/27
  - Patient JSONObject description
  - SQL development cycle
  - Auth
- - Patient Route
+ - Patient Route `50%`
  - Analytics Route
  - Target Route
  - Auto Model building on DB
@@ -43,13 +43,19 @@ http://54.186.43.170/api/orders/target/27
 
 ## [Setup](#setup)
 
-Pull the project with `git clone https://github.com/Duke-Translational-Bioinformatics/calypso-api.git`
-
-Install the dependencies with `npm install`
-
-Create a copy of the local environmental vars by running `cp $PWD/server/config/local.env.sample.js $PWD/server/config/local.env.js`
-
-Run the server with `grunt`
+- Pull the project with `git clone https://github.com/Duke-Translational-Bioinformatics/calypso-api.git`
+- Install the dependencies with `npm install`
+- Create a copy of the local environmental vars by running `cp $PWD/server/config/local.env.sample.js $PWD/server/config/local.env.js`
+- Install Postgres with `brew install postgres` or with the [`Postgres App`](http://postgresapp.com)
+- Install [`plv8`](https://github.com/plv8/plv8)
+	- Mac: Don't use brew to install plv8 or you will receive an error. See https://github.com/plv8/plv8/issues/101
+- Install knex with `npm install -g knex`
+- **Important:** Create database
+	- cd into `sql` folder
+	- Create tables patient_outcomes_v2 and patient_variables
+	- Run Migrations with `knex migrations:latest`
+	- Create other tables
+- Run the server with `grunt`
 
 ## [Grunt](#grunt)
 
@@ -63,6 +69,13 @@ Run the server with `grunt`
 All `POST` and `PUT` requests expect a JSONObject with the `Content-Type` request header set to `application/json`.
 
 Authenticated routes expect the `Authorization` header to be set to `Bearer <token>`.
+
+##### Parsing CSV
+The CSV can be entered into the DB in two ways. By the upload and automatically through the backend that reads a remote source.
+
+Due to inconsistencies between the CSV and database as well as what databse the data should be saved to a translation matrix has been created as a map. This is located at `components > translationMatrix`. Any future additions will needed to be added to the matrix.
+
+The translation matrix is a big object we use to compare the csv data to and create a new obj that will be sent to the patient model. The translation matrix tells us the appropriate property name, sometimes the value and even the database it should be saved to.
 
 ##### Failure
 All routes return a JSONObject with the following fields if an error is encountered.
@@ -82,7 +95,7 @@ Example error:
 ##### [Patient object](#patient-object)
 A `Patient` JSONObject with the following fields:
 
-|   Field               | Type           | Description                                                            | Constraint | 
+|   Field               | Type           | Description                                                            | Constraint |
 | --------------------- | -------------- | ---------------------------------------------------------------------- | ---------- |
 |   `age` 				| `integer`      |  Age upon admission: if age > 90, then change value to 90    | min: 1, max: 90  |
 |   `alcohol` 			| `boolean`      |  Alcohol abuse > 2 drinks/day in 2 wks before admission | |   
@@ -147,6 +160,9 @@ A `Patient` JSONObject with the following fields:
 |   `year` 				| `integer`      |                                                                        |
 
 #### [`/patients`](#patients)
+
+Patients are a combination of patient_outcomes and patient_variables.
+
 ##### GET
 Optional: Send [`Patient`](#patient-object) fields as a JSON encoded query param to filter by those fields.
 
