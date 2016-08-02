@@ -4,6 +4,7 @@ var query = require('pg-query');
 var _ = require('lodash');
 var validator = require('validator');
 var config = require('../../config/environment');
+var bookshelf = require('../../config/bookshelf');
 
 query.connectionParameters = config.conString;
 
@@ -16,14 +17,32 @@ module.exports = class Patient {
   }
 
   static query(search) {
-    // should query patients
-    console.log('TODO: Should return a list of patients that match the search.');
+    var patient = bookshelf.Model.extend({
+      tableName: 'patient_variables',
+      idAttribute: 'caseid'
+    });
+
+    return new Promise(function (resolve, reject) {
+      patient.fetchAll().then(function (collection) {
+        resolve(collection)
+      }).catch(function (err){
+        reject(err);
+      });
+    });
   }
 
   save(values) {
-    // If there is an id, update the patient in the db
-    // If there is no id, save a new patient in the db 
-    console.log('TODO: Patient should be saved into db.');
+    var self = this;
+    var patient = bookshelf.Model.extend({
+      tableName: self.values.db,
+      idAttribute: 'caseid'
+    });
+
+    patient.forge(self.values.data).save()
+    .catch(function (err) {
+      console.log(err);
+    });
+
   }
 
   delete() {
@@ -34,50 +53,43 @@ module.exports = class Patient {
   // returns patient predictors
   get predictors() {
     var self = this;
-    if (self.id) {
-      return new Promise(function (resolve, reject) {
-        query.first(
-          `
-            SELECT * 
-            FROM patient_variables 
-            WHERE caseid = $1
-          `, [self.id],
-          function (err, row, result) {
-            if (err) return reject(err);
-            resolve(row);
-          });
-      });
-    }
+    var patient = bookshelf.Model.extend({
+      tableName: 'patient_variables',
+      idAttribute: 'caseid'
+    });
 
-    if (self.values) {
-      return new Promise(function (resolve, reject) {
-        reject('TODO: Should return predictors.');
+    return new Promise(function (resolve, reject) {
+      patient.forge({caseid: self.id}).fetch().then(function (variables) {
+        if (variables) {
+          resolve(variables);
+        }
+      }).catch(function (err) {
+        if (err) {
+          reject(err);
+        }
       });
-    }
+    });
   }
 
   // returns patient outcomes
   get outcomes() {
     var self = this;
-    if (self.id) {
-      return new Promise(function (resolve, reject) {
-        query.first(
-          `
-            SELECT * 
-            FROM patient_outcomes_v2 
-            WHERE caseid = $1
-          `, [self.id],
-          function (err, row, result) {
-            if (err) return reject(err);
-            resolve(row);
-          });
+    var patient = bookshelf.Model.extend({
+      tableName: 'patient_outcomes_v2',
+      idAttribute: 'caseid'
+    });
+
+    return new Promise(function (resolve, reject) {
+      patient.forge({caseid: self.id}).fetch().then(function (outcomes) {
+        if (outcomes) {
+          resolve(outcomes);
+        }
+      }).catch(function (err) {
+        if (err) {
+          reject(err);
+        }
       });
-    }
-    if (self.values) {
-      return new Promise(function (resolve, reject) {
-        reject('TODO: Should return outcomes.');
-      });
-    }
+    });
   }
 
   // returns patient predictors and outcomes
@@ -107,10 +119,10 @@ module.exports = class Patient {
         query.first(
           `
             SELECT transform(row_to_json(patient_obj)) as data
-            FROM 
+            FROM
               (
-                SELECT * 
-                FROM patient_variables 
+                SELECT *
+                FROM patient_variables
                 WHERE caseid=$1
               ) as patient_obj
           `, [self.id],
