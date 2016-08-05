@@ -45,6 +45,7 @@ http://54.186.43.170/api/orders/target/27
 
 - Pull the project with `git clone https://github.com/Duke-Translational-Bioinformatics/calypso-api.git`
 - Install the dependencies with `npm install`
+- Install bower packages with `bower install`
 - Create a copy of the local environmental vars by running `cp $PWD/server/config/local.env.sample.js $PWD/server/config/local.env.js`
 - Install Postgres with `brew install postgres` or with the [`Postgres App`](http://postgresapp.com)
 - Install [`plv8`](https://github.com/plv8/plv8)
