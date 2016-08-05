@@ -475,8 +475,7 @@ module.exports = function (grunt) {
     mochaTest: {
       options: {
         reporter: 'spec',
-        require: 'mocha.conf.js',
-        timeout: 5000 // set default mocha spec timeout
+        timeout: 10000
       },
       unit: {
         src: ['<%= yeoman.server %>/**/*.spec.js']
@@ -739,7 +738,7 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'env:all',
         'env:test',
-        'mochaTest:unit',
+        'mochaTest',
         'mochaTest:integration'
       ]);
     } else if(target === 'client') {
