@@ -74,7 +74,8 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "start": "node server/app.js"
+    "start": "node server/app.js",
+    "postinstall": "bower install && knex migrate:latest"
   },
   "private": true
 }
