@@ -26,7 +26,11 @@ exports.get = function (req, res) {
 
 exports.query = function (req, res) {
   // TODO
-  return badRequestError(res, 'Query route incomplete');
+  Patient.query().then(function (patients) {
+    res.status(200).json(patients);
+  }, function (err) {
+    return badRequestError(res, err);
+  });
 };
 
 exports.create = function (req, res) {

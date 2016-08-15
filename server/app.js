@@ -12,11 +12,16 @@ var express = require('express'),
 pg.defaults.poolSize = config.pg.poolSize;
 
 // Setup server
+var requestCSV = require('./components/request');
+var translate = require('./components/translationMatrix');
+var Patient = require('./api/patient/patient.model');
+
 var app = express();
 app.use(cors());
 var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
+require('./components/request/box');
 
 // Start server
 server.listen(config.port, config.ip, function () {

@@ -21,6 +21,9 @@ var all = {
   },
   publicKeyPath: process.env.PUBLIC_KEY_PATH,
   privateKeyPath: process.env.PRIVATE_KEY_PATH,
+  boxClientID: process.env.BOX_CLIENT_ID,
+  boxClientSecret: process.env.BOX_CLIENT_SECRET,
+
 };
 
 // Export the config object based on the NODE_ENV
