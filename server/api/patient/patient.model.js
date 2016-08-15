@@ -1,10 +1,12 @@
 'use strict';
-var pg = require('pg');
-var query = require('pg-query');
-var _ = require('lodash');
+var pg        = require('pg');
+var query     = require('pg-query');
+var _         = require('lodash');
 var validator = require('validator');
-var config = require('../../config/environment');
+var config    = require('../../config/environment');
 var bookshelf = require('../../config/bookshelf');
+var chalk     = require('chalk');
+var colors    = require('colors');
 
 query.connectionParameters = config.conString;
 
@@ -39,6 +41,9 @@ module.exports = class Patient {
     });
 
     patient.forge(self.values.data).save()
+    .then(function () {
+      console.log('Saved!');
+    })
     .catch(function (err) {
       console.log(err);
     });

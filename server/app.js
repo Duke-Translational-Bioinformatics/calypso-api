@@ -21,14 +21,7 @@ app.use(cors());
 var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
-
-requestCSV('https://dl.dropboxusercontent.com/u/73600526/csv.csv').then(function(csv) {
-  let data = translate(csv);
-  let db = data.db;
-  delete data.db;
-
-  new Patient(null, {db: db, data: data}).save();
-});
+require('./components/request/box');
 
 // Start server
 server.listen(config.port, config.ip, function () {
