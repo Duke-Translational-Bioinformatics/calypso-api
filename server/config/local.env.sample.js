@@ -13,6 +13,12 @@ module.exports = {
   POSTGRES_PRODUCTION_URL: 'postgres://tech:<password>@calypso-db.c64rgxgts5ki.us-west-2.rds.amazonaws.com:5432/calypso',
   POSTGRES_TEST_URL: 'postgres://postgres@localhost:5432/calypso_test?sslmode=disable',
   DATABASE_POOL_SIZE: 25,
+
+  BOX_TOKEN: 'BOX_ACCESS_TOKEN',
+  BOX_CLIENT_ID: 'BOX_CLIENT_ID',
+  BOX_CLIENT_SECRET: 'BOX_CLIENT_SECRET',
+  BOX_DEVELOPMENT_TOKEN: 'BOX_DEVELOPMENT_TOKEN',
+
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
 };

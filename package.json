@@ -6,6 +6,7 @@
     "autoprefixer": "^6.3.7",
     "body-parser": "~1.15.0",
     "bookshelf": "^0.10.0",
+    "box-node-sdk": "^1.0.0",
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",
     "connect-mongo": "^0.4.1",

@@ -17,22 +17,43 @@ var parseData = function (header, row) {
 }
 
 var readData = function (file) {
-  return new Promise(function (resolve, reject) {
-    fs.createReadStream(file.path).pipe(parse({delimiter: ','}, function(err, data) {
-      if (!err) {
-        let header = data[0];
+  if (file.path) {
+    return new Promise(function (resolve, reject) {
 
-        data.forEach(function(row, index) {
-          if (index >= 1) {
-            resolve(parseData(header, row));
-          }
-        });
-      } else {
-        reject(err);
-      }
-    }));
-  });
-}
+      fs.createReadStream(file.path).pipe(parse({delimiter: ','}, function(err, data) {
+        if (!err) {
+          let header = data[0];
+
+          data.forEach(function(row, index) {
+            if (index >= 1) {
+              resolve(parseData(header, row));
+            }
+          });
+        } else {
+          reject(err);
+        }
+      }));
+    });
+  } else {
+    return new Promise(function (resolve, reject) {
+
+      parse(file, {delimiter: ','}, function(err, data) {
+        if (!err) {
+          let header = data[0];
+
+          data.forEach(function(row, index) {
+            if (index >= 1) {
+              resolve(parseData(header, row));
+            }
+          });
+        } else {
+          reject(err);
+        }
+      });
+    });
+
+  }
+};
 
 module.exports = function (file) {
   return readData(file);
