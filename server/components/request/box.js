@@ -1,9 +1,23 @@
 var request = require('request');
+var config = require('../../config/environment');
 var bookshelf = require('../../config/bookshelf');
 var csvParse = require('../../components/csv-parser');
 var Patient = require('../../api/patient/patient.model');
 var translate = require('../../components/translationMatrix');
-var CronJob = require('cron').CronJob;
+var BoxSDK = require('box-node-sdk');
+
+var events = [
+  'ITEM_UPLOAD',
+  'ITEM_RENAME'
+];
+
+var sdk = new BoxSDK({
+  clientID: config.boxClientID,
+  clientSecret: config.boxClientSecret
+});
+
+var box = sdk.getBasicClient(config.boxToken);
+
 
 var csv = bookshelf.Model.extend({
   tableName: 'csv'
@@ -11,36 +25,51 @@ var csv = bookshelf.Model.extend({
 
 var request = request.defaults({
   headers: {
-    "Authorization": 'Bearer ' + process.env.BOX_TOKEN
+    "Authorization": 'Bearer 6mko6mQQUCtMk1AyODM2h4fWLqUAafiY'
   }
-})
+});
 
-var importCsv = function(id, file_version) {
+
+var importCsv = function(file_version, action) {
   var options = {
-    url: 'https://api.box.com/2.0/files/' + id + '/content'
+    url: 'https://api.box.com/2.0/files/' + file_version + '/content'
   };
 
   var callback = function(err, response, body) {
     // Save Data to DB
-    csvParse(body).then(function (csv){
-      var data = translate(csv);
-      var db = data.db;
-      delete data.db;
+    var saveCSV = function(){
+      csvParse(body).then(function (csv){
+        var data = translate(csv);
+        var db = data.db;
+        delete data.db;
 
-      new Patient(null, {db: db, data: data}).save();
-    });
+        new Patient(null, {db: db, data: data}).save();
+      });
+    };
 
-    // Save file version
-    csv.forge({
-      id: 1,
-      file_version: file_version
-    }).save(null, {method: 'insert'})
-    .then(function (csv){
-      console.log('Imported new CSV');
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
+    if (action === 'update') {
+
+      csv.forge({
+        id: 1,
+        file_version: file_version
+      }).save()
+      .then(function(){
+        saveCSV();
+        console.log('updated')
+      });
+
+    } else if (action === 'insert') {
+
+      csv.forge({
+        id: 1,
+        file_version: file_version
+      }).save(null, {method: 'insert'})
+      .then(function(){
+        saveCSV();
+        console.log('inserted')
+      });
+
+    }
 
   };
 
@@ -48,58 +77,48 @@ var importCsv = function(id, file_version) {
 };
 
 var trackFile = function(id) {
-  var options = {
-    url: 'https://api.box.com/2.0/files/' + id
-  };
+  var new_file_version = id;
 
-  var callback = function(err, response, body) {
-    body = JSON.parse(body);
-    var new_file_version = body.file_version.id;
+  // Get csv count to see if new db
+  csv.count().then(function(count) {
+    // If not new db
+    if (count > 0) {
+      csv.forge({id: 1}).fetch().then(function(csv) {
+        var old_file_version = csv.get('file_version');
 
-    // Get csv count to see if new db
-    csv.count().then(function(count) {
-      // If not new db
-      if (count > 0) {
-        csv.forge({id: 1}).fetch().then(function(csv) {
-          var old_file_version = csv.get('file_version');
+        if (new_file_version !== old_file_version) {
+          importCsv(new_file_version, 'update');
+        }
 
-          if (new_file_version !== old_file_version) {
-            importCsv(id, new_file_version);
-          }
+      });
 
-        });
+    // If fresh db
+    } else {
+      importCsv(new_file_version, 'insert');
+    }
 
-      // If fresh db
-      } else {
-        importCsv(id, new_file_version);
-      }
+  });
+};
 
-    });
+var getFile = function(id) {
+  box.files.get(id, null, function(err, data) {
+    trackFile(data.id);
+  });
+};
+
+box.events.getEventStream(function(err, stream) {
+  if (err) {
+    console.log(err);
   }
 
-  request(options, callback);
-};
+  stream.on('data', function(event) {
+    var eventType = event.event_type;
+    for (var i = 0; i < events.length; i++) {
 
-var getBoxEntries = function() {
-  var options = {
-    url: 'https://api.box.com/2.0/folders/9107199641'
-  };
+      if (eventType === events[i]) {
+        getFile(event.source.id);
+      }
 
-  var callback = function(err, response, body) {
-    var parsedBody = JSON.parse(body);
-    var entries = parsedBody.item_collection.entries;
-
-    for (var i = 0; i < entries.length; i++) {
-      var fileId = entries[i].id;
-      trackFile(fileId);
     }
-  };
-
-  request(options, callback);
-};
-
-
-// Set 1 minute interval 
-new CronJob('0 * * * * *', function() {
-  getBoxEntries();
-}, null, true, 'America/Los_Angeles');
+  });
+});

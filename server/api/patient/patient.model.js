@@ -5,8 +5,6 @@ var _         = require('lodash');
 var validator = require('validator');
 var config    = require('../../config/environment');
 var bookshelf = require('../../config/bookshelf');
-var chalk     = require('chalk');
-var colors    = require('colors');
 
 query.connectionParameters = config.conString;
 
