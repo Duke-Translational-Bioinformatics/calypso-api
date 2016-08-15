@@ -99,7 +99,7 @@ var getBoxEntries = function() {
 };
 
 
-getBoxEntries();
-// new CronJob('* * * * * *', function() {
-//   getBoxEntries();
-// }, null, true, 'America/Los_Angeles');
+// Set 1 minute interval 
+new CronJob('0 * * * * *', function() {
+  getBoxEntries();
+}, null, true, 'America/Los_Angeles');
