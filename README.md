@@ -47,6 +47,7 @@ http://54.186.43.170/api/orders/target/27
 - Install the dependencies with `npm install`
 - Install bower packages with `bower install`
 - Create a copy of the local environmental vars by running `cp $PWD/server/config/local.env.sample.js $PWD/server/config/local.env.js`
+- Populate local.env.js with appropriate tokens (see below for help)
 - Install Postgres with `brew install postgres` or with the [`Postgres App`](http://postgresapp.com)
 - Install [`plv8`](https://github.com/plv8/plv8)
 	- Mac: Don't use brew to install plv8 or you will receive an error. See https://github.com/plv8/plv8/issues/101
@@ -57,6 +58,16 @@ http://54.186.43.170/api/orders/target/27
 	- Run Migrations with `knex migrations:latest`
 	- Create other tables
 - Run the server with `grunt`
+
+### Tokens
+
+This app is integrated with Box.com and credentials will be needed to properly set up your app. You will need the following items.
+
+- client_id
+- client_secret
+- access token
+
+All can be found on https://app.box.com/developers/services
 
 ## [Grunt](#grunt)
 

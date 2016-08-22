@@ -25,7 +25,7 @@ var csv = bookshelf.Model.extend({
 
 var request = request.defaults({
   headers: {
-    "Authorization": 'Bearer 6mko6mQQUCtMk1AyODM2h4fWLqUAafiY'
+    "Authorization": 'Bearer ' + config.boxToken
   }
 });
 
