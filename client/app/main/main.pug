@@ -1,0 +1,9 @@
+.form-wrapper
+  div(flex, layout-column)
+    md-toolbar
+      .md-toolbar-tools
+        h1 Upload Files
+    form(name="myForm", ng-submit="uploadFile(files)")
+      lf-ng-md-file-input(lf-files="files", drag="true", multiple="true")
+      div(layout="row", layout-align="center")
+        md-button(type="submit") Submit

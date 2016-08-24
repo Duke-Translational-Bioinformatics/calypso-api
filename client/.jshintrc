@@ -12,5 +12,7 @@
   "smarttabs": true,
   "asi": true,
   "debug": true,
-  "predef": ["angular"]
+  "predef": [
+    "angular"
+  ]
 }
