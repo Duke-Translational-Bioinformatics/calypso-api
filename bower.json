@@ -24,5 +24,8 @@
     "ng-file-upload": "^12.0.4",
     "angular-material": "^1.0.9",
     "lf-ng-md-file-input": "^1.4.8"
+  },
+  "resolutions": {
+    "angular": "1.5.8"
   }
 }
